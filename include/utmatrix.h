@@ -235,8 +235,8 @@ public:
   }
   friend ostream & operator<<( ostream &out, const TMatrix &mt)
   {
-    for (int i = 0; i < mt.Size; i++)
-      out << mt.pVector[i] << endl;
+	  for (int i = 0; i < mt.Size; i++)
+		  out << mt.pVector[i] << endl;
     return out;
   }
 };
@@ -244,12 +244,12 @@ public:
 template <class ValType>
 TMatrix<ValType>::TMatrix(int s): TVector<TVector<ValType> >(s)
 {
-	if ((s > MAX_MATRIX_SIZE) || (s < 0))
+	if ((s > MAX_MATRIX_SIZE) || (s <= 0))
 		throw "Error";
 
-	for (int i = 0; i < Size; i++)
+	for (int i = 0; i < s; i++)
 	{
-		TVector<ValType> tmp(s, i);
+		TVector<ValType> tmp(s-i, i);
 		pVector[i] = tmp;
 	}
 } /*-------------------------------------------------------------------------*/
