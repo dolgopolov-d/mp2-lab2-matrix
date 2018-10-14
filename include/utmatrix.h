@@ -55,6 +55,8 @@ public:
   }
   friend ostream& operator<<(ostream &out, const TVector &v)
   {
+	for (int i = 0; i < v.StartIndex; i++)
+		  out << '0' << ' ';
     for (int i = 0; i < v.Size; i++)
       out << v.pVector[i] << ' ';
     return out;
@@ -62,9 +64,9 @@ public:
 };
 
 template <class ValType>
-TVector<ValType>::TVector(int s, int si)
+TVector<ValType>::TVector(int s, int si)	
 {
-	if ((s > MAX_VECTOR_SIZE) || (s < 0) || (si < 0) || (si >= MAX_VECTOR_SIZE))
+	if ((s > MAX_VECTOR_SIZE) || (s < 0) || (si < 0) || (si > MAX_VECTOR_SIZE))
 		throw "Error";
 	else
 	{
@@ -100,9 +102,9 @@ TVector<ValType>::~TVector()
 template <class ValType> // доступ
 ValType& TVector<ValType>::operator[](int pos)
 {
-	if ((pos < 0) || (pos > Size-1))
+	if ((pos < 0) || (pos > (StartIndex + Size)))
 		throw "Error";
-	return pVector[pos];
+	return pVector[pos - StartIndex];
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
@@ -244,7 +246,7 @@ public:
 template <class ValType>
 TMatrix<ValType>::TMatrix(int s): TVector<TVector<ValType> >(s)
 {
-	if ((s > MAX_MATRIX_SIZE) || (s <= 0))
+	if ((s > MAX_MATRIX_SIZE) || (s < 0))
 		throw "Error";
 
 	for (int i = 0; i < s; i++)
